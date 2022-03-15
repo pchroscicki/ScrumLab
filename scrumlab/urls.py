@@ -26,5 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', IndexView.as_view()),
     path('recipe/list', Recipe),
-    path('main/', Dashboard),
+    path('main/', Dashboard.as_view()),
 ]

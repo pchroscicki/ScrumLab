@@ -10,7 +10,6 @@ class IndexView(View):
         ctx = {"actual_date": datetime.now()}
         return render(request, "index.html", ctx)   # zmiana z test.html
 
-class Dashboard:
-
-    def dashboard(request):
+class Dashboard(View):
+    def dashboard(self, request):
         return render(request, 'dashboard.html') 
