@@ -72,6 +72,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'scrumlab.wsgi.application'
 
+# Database
+# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
+
+DATABASES = {
+    'default': {
+        'HOST': '127.0.0.1',
+        'NAME': 'exercises',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'Ja',
+        'PASSWORD': 'love200',
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
 
