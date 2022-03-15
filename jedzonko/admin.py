@@ -4,4 +4,7 @@ from jedzonko.models import Recipe
 # Register your models here.
 admin.site.register(Recipe)
 
+
+# Register your models here.
+admin.site.register(Recipe)
 # Register your models here.
