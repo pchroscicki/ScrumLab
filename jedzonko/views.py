@@ -1,7 +1,7 @@
 from datetime import datetime
-
 from django.shortcuts import render
 from django.views import View
+from jedzonko.models import Schedule
 
 
 class IndexView(View):
@@ -52,3 +52,10 @@ class DodajPlanView(View):
 class DodajPrzepisDoPlanuView(View):
     def AddRecipeToSchedule(self, request):
         return render(request, 'app-details-schedules')
+
+class LiczbaPlanow(View):
+    def get(self, request):
+        number = Schedule.objects.count()
+        return render(request, 'index.html', {'number': number})
+
+
