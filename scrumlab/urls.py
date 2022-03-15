@@ -18,14 +18,22 @@ from django.urls import path
 
 
 from jedzonko.models import Recipe
-from jedzonko.views import IndexView, Dashboard, RecipeView
+from jedzonko.views import IndexView, PulpitView, ModyfikujPlanView, ModyfikujPrzepisView, PlanyView, \
+    PrzepisyView, DodajPrzepisView, DodajPlanView, DodajPrzepisDoPlanuView
 from django.contrib import admin
 from django.urls import path, re_path
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('index/', IndexView.as_view()),
-    path('index/recipes.html/', RecipeView.as_view()),
-    path('main/', Dashboard.as_view()),
+    path('', IndexView.as_view()),
+    path('main/', PulpitView.as_view()),
+    path('recipe/add/', DodajPrzepisView.as_view()),
+    path('recipe/list/', PrzepisyView.as_view()),
+    path('plan/add/', DodajPlanView.as_view()),
+    path('plan/list/', PlanyView.as_view()),
+    path('recipe/modify/<int:id>/', ModyfikujPrzepisView.as_view()),
+    path('plan/modify/<int:id>/', ModyfikujPlanView.as_view()),
+    path('plan/add/recipe/', DodajPrzepisDoPlanuView.as_view()),
+
 ]
