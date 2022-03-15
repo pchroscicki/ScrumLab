@@ -19,10 +19,10 @@ class CarouselView(View):
         return render(request, 'index.html', context={'recipes': recipes})
 
 class NumberOfRecipesView(View):
-    def get(self,request):
+    def get(self, request):
         recipes = Recipe.objects.all()
         recipesNum = recipes.count()
-        return render(request, 'dashboard.html', wynik={recipesNum})
+        return render(request, 'dashboard.html', context={'wynik': recipesNum}) ## {'wynik': recipesNum}), wynik=recipesNum
 
 
 class PrzepisyView(View):
