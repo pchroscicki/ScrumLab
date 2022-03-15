@@ -28,7 +28,8 @@ class PrzepisyView(View):
 
         page = request.GET.get('page')
         recipes = paginator.get_page(page)
-        return render(request, 'app-recipes.html', {'recipes': recipes})
+        ctx = {'recipes': recipes, 'recipe_list': recipe_list}
+        return render(request, 'app-recipes.html', ctx)
 
 
 class PlanyView(View):
