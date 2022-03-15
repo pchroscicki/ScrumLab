@@ -16,14 +16,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from jedzonko.views import Index
+from jedzonko.views import IndexView
 from django.contrib import admin
 from django.urls import path, re_path
-from jedzonko.views import recipe
+from jedzonko.views import Recipe
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', IndexView.as_view()),
-    path('recipe/list', recipe),
+    path('recipe/list', Recipe),
 ]
