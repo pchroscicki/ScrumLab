@@ -63,15 +63,17 @@
                         </div>
                     </div>
                 </div>
+                {% for recipe in recipes %}
                 <div class="carousel-item">
                     <div class="container w-75 d-flex">
                         <div class="carousel-caption d-block">
-                            <h1>Borem ipsum dolor sit amet</h1>
-                            <h3> consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                                magna aliqua.</h3>
+                            <h1> {{ recipe.name }} </h1>     <!-- djnvufvn  -->
+                            <h3> {{ recipe.description }} </h3>
+
                         </div>
                     </div>
                 </div>
+                {% endfor %}
             </div>
             <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -103,23 +105,21 @@
     <section class="padding-small details bg-light">
             <div class="container">
                 <div class="row">
-                    {% for recipe in recipes %}
                     <div class="col text-center">
                         <i class="fas fa-check icon-details"></i>
-                        <h1>{{ recipe.name }}</h1>
-                        <p>{{ recipe.description }}</p>
+                        <h1> Do uzupełnienia </h1>
+                        <p>Do uzupełnienia</p>
                     </div>
                     <div class="col text-center pr-4 pl-4 mr-4 ml-4">
                         <i class="far fa-clock icon-details"></i>
-                        <h1>{{ recipe.name }}</h1>
-                        <p>{{ recipe.description }}</p>
+                        <h1>Do uzupełnienia</h1>
+                        <p>Do uzupełnienia</p>
                     </div>
                     <div class="col text-center">
                             <i class="fas fa-list icon-details"></i>
-                        <h1>{{ recipe.name }}</h1>
-                        <p>{{ recipe.description }}</p>
+                        <h1>Do uzupełnienia</h1>
+                        <p>Do uzupełnienia</p>
                     </div>
-                    {% endfor %}
                 </div>
             </div>
         </section>

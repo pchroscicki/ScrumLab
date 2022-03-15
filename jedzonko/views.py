@@ -7,21 +7,11 @@ from jedzonko.models import Schedule, Recipe
 
 class IndexView(View):
     def get(self, request):
-        ctx = {"actual_date": datetime.now()}
-        return render(request, "index.html", ctx)   # zmiana z test.html
-
-class CarouselView(View):
-    def get(self, request):
-        recipe = Recipe.objects.all()
+        recipe = list(Recipe.objects.all())
         random.shuffle(recipe)
-        recipes = recipe[0:2]
-        return render(request, 'index.html', context={'recipes': recipes})
-
-class NumberOfRecipesView(View):
-    def get(self, request):
-        recipes = Recipe.objects.all()
-        recipesNum = recipes.count()
-        return render(request, 'dashboard.html', context={'wynik': recipesNum}) ## {'wynik': recipesNum}), wynik=recipesNum
+        recipes = recipe[0:3]
+        ctx = {"actual_date": datetime.now(), "recipes": recipes}
+        return render(request, "index.html", ctx)   # zmiana z test.html
 
 
 class PrzepisyView(View):
