@@ -1,7 +1,11 @@
 from datetime import datetime
 
+from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
+
+from jedzonko.models import Recipe
 
 
 class IndexView(View):
@@ -12,7 +16,12 @@ class IndexView(View):
 
 class PrzepisyView(View):
     def get(self, request):
-        return render(request, 'app-recipes.html')
+        recipe_list = Recipe.objects.all().order_by('votes')
+        paginator = Paginator(recipe_list, 50)  # Show 50 recipes per page
+
+        page = request.GET.get('page')
+        recipes = paginator.get_page(page)
+        return render(request, 'app-recipes.html', {'recipes': recipes})
 
 
 class PlanyView(View):
@@ -26,7 +35,7 @@ class PulpitView(View):
 
 class ZaplanujJedzonkoView(View):
     def get(self, request):
-        return render(request, 'index.html')
+        return render(request, '')
 
 
 class DodajPrzepisView(View):
@@ -56,4 +65,6 @@ class DodajPrzepisDoPlanuView(View):
 
 class DetalePrzepisuView(View):
     def get(self, request):
+        # recipes = list(Recipe.objects.all())
         return render(request, 'app-recipe-details.html')
+
