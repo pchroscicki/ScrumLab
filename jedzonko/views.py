@@ -8,15 +8,12 @@ from jedzonko.models import Recipe
 
 class IndexView(View):
     def get(self, request):
-        ctx = {"actual_date": datetime.now()}
+        recipe = list(Recipe.objects.all())
+        random.shuffle(recipe)
+        recipes = recipe[0:3]
+        ctx = {"actual_date": datetime.now(), 'recipes':recipes}
         return render(request, "index.html", ctx)   # zmiana z test.html
 
-class CarouselView(View):
-    def get(self, request):
-        recipe = Recipe.objects.all()
-        random.shuffle(recipe)
-        recipes = recipe[0:2]
-        return render(request, 'index.html', context={'recipes': recipes})
 
 class PrzepisyView(View):
     def get(self, request):
