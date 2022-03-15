@@ -1,17 +1,22 @@
+import random
 from datetime import datetime
-
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-
-from jedzonko.models import Recipe
+from jedzonko.models import Schedule, Recipe
 
 
 class IndexView(View):
     def get(self, request):
-        ctx = {"actual_date": datetime.now()}
+        recipe = list(Recipe.objects.all())
+        random.shuffle(recipe)
+        recipes = recipe[0:3]
+        schedules_number = Schedule.objects.count()
+        recipes_number = Recipe.objects.count()
+        ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number, 'recipes':recipes'}
         return render(request, "index.html", ctx)   # zmiana z test.html
+
 
 
 class PrzepisyView(View):
