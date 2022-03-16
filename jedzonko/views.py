@@ -14,7 +14,9 @@ class IndexView(View):
         recipes = recipe[0:3]
         schedules_number = Schedule.objects.count()
         recipes_number = Recipe.objects.count()
-        ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number, 'recipes':recipes}
+        schedule_list = list(Schedule.objects.all().order_by('-created'))
+        last_schedule = schedule_list[0]
+        ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number, 'recipes':recipes, 'last_schedule': last_schedule}
         return render(request, "index.html", ctx)   # zmiana z test.html
 
 
@@ -26,7 +28,8 @@ class PrzepisyView(View):
 
         page = request.GET.get('page')
         recipes = paginator.get_page(page)
-        return render(request, 'app-recipes.html', {'recipes': recipes})
+        ctx = {'recipes': recipes, 'recipe_list': recipe_list}
+        return render(request, 'app-recipes.html', ctx)
 
 
 class PlanyView(View):

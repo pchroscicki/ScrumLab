@@ -92,13 +92,13 @@
             <div class="mr-4">
                  <h1> Liczba planów: {{ schedules_number }} </h1>
                 <h1> Liczba przepisów: {{ recipes_number }} </h1>
-                <h1 class="pb-3">Lorem ipsum dolor sit amet</h1>
+                <h1 class="pb-3">Ostatnio dodany: {{ last_schedule.name }}</h1>
                 <h4 class="pt-1">consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
                     magna aliqua.</h4>
             </div>
             <div class="ml-4 align-self-center">
                 <button class="btn btn-color rounded-0 mt-4 pl-4 pr-4">
-                    <a href="">Lorem ipsum</a>
+                    <a href="receipe/{{ recipe.id }}">Szczegóły</a>
                 </button>
             </div>
         </div>
