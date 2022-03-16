@@ -14,7 +14,7 @@ class IndexView(View):
         recipes = recipe[0:3]
         schedules_number = Schedule.objects.count()
         recipes_number = Recipe.objects.count()
-        ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number, 'recipes':recipes'}
+        ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number, 'recipes':recipes}
         return render(request, "index.html", ctx)   # zmiana z test.html
 
 
