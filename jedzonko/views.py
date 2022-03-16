@@ -19,9 +19,8 @@ class IndexView(View):
 
 class PrzepisyView(View):
     def get(self, request):
-        recipe_list = Recipe.objects.all().order_by('votes')
+        recipe_list = list(Recipe.objects.all().order_by('votes'))
         paginator = Paginator(recipe_list, 50)  # Show 50 recipes per page
-
         page = request.GET.get('page')
         recipes = paginator.get_page(page)
         ctx = {'recipes': recipes, 'recipe_list': recipe_list}
@@ -30,7 +29,7 @@ class PrzepisyView(View):
 
 class PlanyView(View):
     def get(self, request):
-        schedule_list = Schedule.objects.all().order_by('name')
+        schedule_list = list(Schedule.objects.all().order_by('name'))
         paginator = Paginator(schedule_list, 50)
         page = request.GET.get('page')
         schedules = paginator.get_page(page)
