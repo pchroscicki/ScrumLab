@@ -1,5 +1,3 @@
-from enum import Enum
-
 from django.db import models
 import datetime
 
@@ -23,17 +21,19 @@ class Schedule(models.Model):
     recipes = models.ManyToManyField(Recipe, through='RecipePlan')
 
 
-class DayName(models.Model):  # dayname choices by 'enume' Django build-in function
-    class Weekday(Enum):
-        Monday = 'Poniedziałek'
-        Tuesday = 'Wtorek'
-        Wednesday = 'Środa'
-        Thursday = 'Czwartek'
-        Friday = 'Piątek'
-        Saturday = 'Sobota'
-        Sunday = 'Niedziela'
+CHOICES = (
+    ('Mon', 'Poniedziałek'),
+    ('Tue', 'Wtorek'),
+    ('Wed', 'Środa'),
+    ('Thu', 'Czwartek'),
+    ('Fri', 'Piątek'),
+    ('Sat', 'Sobota'),
+    ('Sun', 'Niedziela')
+)
 
-    name = models.CharField(choices=Weekday)
+
+class DayName(models.Model):
+    name = models.CharField(max_length=64, choices=CHOICES)
     order = models.SmallIntegerField(unique=True)
 
 
@@ -41,5 +41,5 @@ class RecipePlan(models.Model):
     meal_name = models.CharField(max_length=256)  # (śniadanie, obiad itp)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)
-    order = models.ForeignKey(DayName, to_fields=['order'], from_fields=['self'], on_delete=models.CASCADE)
+    order = models.ForeignKey(DayName, on_delete=models.CASCADE, related_name='order_id')
     day_name = models.ForeignKey(DayName, on_delete=models.CASCADE)
