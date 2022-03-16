@@ -19,7 +19,7 @@ class IndexView(View):
 
 class PrzepisyView(View):
     def get(self, request):
-        recipe_list = list(Recipe.objects.all().order_by('votes'))
+        recipe_list = list(Recipe.objects.all().order_by('votes', 'created'))
         paginator = Paginator(recipe_list, 50)  # Show 50 recipes per page
         page = request.GET.get('page')
         recipes = paginator.get_page(page)
