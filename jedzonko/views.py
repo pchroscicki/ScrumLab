@@ -52,11 +52,15 @@ class DodajPrzepisView(View):
     def post(self, request):
         recipe = request.POST['recipe']
         description = request.POST['description']
-        time = int(request.POST['time'])
+        time = (request.POST['time'])
         preparation = request.POST['preparation']
         ingredients = request.POST['ingredients']
-        Recipe.objects.create(name=recipe, ingredients=ingredients, description=description, preparation_time=time, preparation=preparation)
-        return render(request, 'app-add-recipe.html')
+        if not (recipe and description and time and preparation and ingredients):
+            text = 'Wypełnij poprawnie wszystkie pola'
+            return render(request, 'app-add-recipe.html', {'text': text})
+        Recipe.objects.create(name=recipe, ingredients=ingredients, description=description, preparation_time=time,
+                              preparation=preparation)
+        return render(request, 'app-recipes.html')
 
 class ModyfikujPrzepisView(View):
     def get(self, request):
