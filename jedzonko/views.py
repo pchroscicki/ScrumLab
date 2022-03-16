@@ -83,7 +83,7 @@ class DodajPlanView(View):
     def post(self, request):
         planname = request.POST['planName']
         plandescription = request.POST['planDescription']
-        if not (planname and plandescription):
+        if not planname or not plandescription:
             text = 'Wypełnij wszystkie pola'
             return render(request, 'app-add-schedules.html', {'text': text})
         Schedule.objects.create(name=planname, description=plandescription)
@@ -92,7 +92,7 @@ class DodajPlanView(View):
 
 class DodajPrzepisDoPlanuView(View):
     def get(self, request):
-        return render(request, 'app-details-schedules.html')
+        return render(request, 'add-schedules-meal-recipe.html')
 
 
 class DetalePrzepisuView(View):
