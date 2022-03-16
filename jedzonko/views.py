@@ -82,10 +82,13 @@ class DodajPlanView(View):
     def get(self, request):
         return render(request, 'app-add-schedules.html')
     def post(self, request):
-        planName = request.POST['planName']
-        planDescription = request.POST['planDescription']
-        Schedule.objects.create(name="planName", description="planDescription")
-        return render(request, 'app-add-schedules.html')  # HttpResponse("Dodano plan!")
+        planname = request.POST['planName']
+        plandescription = request.POST['planDescription']
+        if not (planname and plandescription):
+            text = 'Wypełnij wszystkie pola'
+            return render(request, 'app-add-schedules.html', {'text': text})
+        Schedule.objects.create(name=planname, description=plandescription)
+        return redirect('/plan/list/')
 
 
 class DodajPrzepisDoPlanuView(View):
