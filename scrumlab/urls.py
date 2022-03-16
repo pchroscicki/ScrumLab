@@ -17,7 +17,7 @@ Including another URLconf
 
 from jedzonko.models import Recipe
 from jedzonko.views import IndexView, PulpitView, ModyfikujPlanView, ModyfikujPrzepisView, PlanyView, \
-    PrzepisyView, DodajPrzepisView, DodajPlanView, DodajPrzepisDoPlanuView, DetalePrzepisuView
+    PrzepisyView, DodajPrzepisView, DodajPlanView, DodajPrzepisDoPlanuView, DetalePrzepisuView, DetalePlanuView
 from django.contrib import admin
 from django.urls import path, re_path
 
@@ -39,4 +39,5 @@ urlpatterns = [
     path('plan/modify/<int:id>/', ModyfikujPlanView.as_view()),
     path('plan/add/recipe/', DodajPrzepisDoPlanuView.as_view()),
     path('recipe/<int:id>/', DetalePrzepisuView.as_view()),
+    path('plan/<int:id>', DetalePlanuView.as_view()),
 ]

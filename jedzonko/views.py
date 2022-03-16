@@ -12,12 +12,7 @@ class IndexView(View):
         recipe = list(Recipe.objects.all())
         random.shuffle(recipe)
         recipes = recipe[0:3]
-        schedules_number = Schedule.objects.count()
-        recipes_number = Recipe.objects.count()
-        schedule_list = list(Schedule.objects.all().order_by('-created'))
-        last_schedule = schedule_list[0]
-        ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number, 'recipes':recipes, 'last_schedule': last_schedule}
-
+        ctx = {"actual_date": datetime.now(), 'recipes': recipes}
         return render(request, "index.html", ctx)   # zmiana z test.html
 
 
@@ -39,7 +34,12 @@ class PlanyView(View):
 
 class PulpitView(View):
     def get(self, request):
-        return render(request, 'dashboard.html') 
+        schedules_number = Schedule.objects.count()
+        recipes_number = Recipe.objects.count()
+        schedule_list = list(Schedule.objects.all().order_by('-created'))
+        last_schedule = schedule_list[0]
+        ctx = {'schedules_number': schedules_number, 'recipes_number': recipes_number, 'last_schedule': last_schedule}
+        return render(request, 'dashboard.html', ctx)
 
 
 class ZaplanujJedzonkoView(View):
@@ -93,3 +93,7 @@ class DetalePrzepisuView(View):
         recipes = list(Recipe.objects.all())
         return render(request, 'app-recipe-details.html')
 
+class DetalePlanuView(View):
+    def get(self, request, id):
+        schedule = Schedule.objects.get(pk=id)
+        return render(request, 'app-details-schedules.html', context={'schedule': schedule})
