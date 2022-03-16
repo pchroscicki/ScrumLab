@@ -1,6 +1,8 @@
 {% extends "__base__.html" %}
 {% block content %}
 <div class="dashboard-content border-dashed p-3 m-4 view-height">
+<form action="" method="POST">
+    {% csrf_token %}
 
     <div class="row border-bottom border-3 p-1 m-1">
         <div class="col noPadding">
@@ -35,6 +37,7 @@
             </div>
         </form>
     </div>
+</form>
 </div>
 {% endblock content %}
 
