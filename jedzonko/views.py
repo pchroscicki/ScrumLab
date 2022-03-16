@@ -1,5 +1,7 @@
 import random
 from datetime import datetime
+from django.core.paginator import Paginator
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from jedzonko.models import Schedule, Recipe
@@ -7,29 +9,27 @@ from jedzonko.models import Schedule, Recipe
 
 class IndexView(View):
     def get(self, request):
+        recipe = list(Recipe.objects.all())
+        random.shuffle(recipe)
+        recipes = recipe[0:3]
         schedules_number = Schedule.objects.count()
         recipes_number = Recipe.objects.count()
-        ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number}
+        schedule_list = list(Schedule.objects.all().order_by('-created'))
+        last_schedule = schedule_list[0]
+        ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number, 'recipes':recipes, 'last_schedule': last_schedule}
         return render(request, "index.html", ctx)   # zmiana z test.html
 
-
-class CarouselView(View):
-    def get(self, request):
-        recipe = Recipe.objects.all()
-        random.shuffle(recipe)
-        recipes = recipe[0:2]
-        return render(request, 'index.html', context={'recipes': recipes})
-
-class NumberOfRecipesView(View):
-    def get(self, request):
-        recipes = Recipe.objects.all()
-        recipesNum = recipes.count()
-        return render(request, 'dashboard.html', context={'wynik': recipesNum}) ## {'wynik': recipesNum}), wynik=recipesNum
 
 
 class PrzepisyView(View):
     def get(self, request):
-        return render(request, 'app-recipes.html')
+        recipe_list = Recipe.objects.all().order_by('votes')
+        paginator = Paginator(recipe_list, 50)  # Show 50 recipes per page
+
+        page = request.GET.get('page')
+        recipes = paginator.get_page(page)
+        ctx = {'recipes': recipes, 'recipe_list': recipe_list}
+        return render(request, 'app-recipes.html', ctx)
 
 
 class PlanyView(View):
@@ -43,7 +43,7 @@ class PulpitView(View):
 
 class ZaplanujJedzonkoView(View):
     def get(self, request):
-        return render(request, 'index.html')
+        return render(request, '')
 
 
 class DodajPrzepisView(View):
@@ -73,4 +73,6 @@ class DodajPrzepisDoPlanuView(View):
 
 class DetalePrzepisuView(View):
     def get(self, request):
+        # recipes = list(Recipe.objects.all())
         return render(request, 'app-recipe-details.html')
+
