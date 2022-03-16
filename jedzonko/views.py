@@ -17,6 +17,7 @@ class IndexView(View):
         schedule_list = list(Schedule.objects.all().order_by('-created'))
         last_schedule = schedule_list[0]
         ctx = {"actual_date": datetime.now(), 'schedules_number': schedules_number, 'recipes_number': recipes_number, 'recipes':recipes, 'last_schedule': last_schedule}
+
         return render(request, "index.html", ctx)   # zmiana z test.html
 
 
@@ -71,6 +72,11 @@ class ModyfikujPlanView(View):
 class DodajPlanView(View):
     def get(self, request):
         return render(request, 'app-add-schedules.html')
+    def post(self, request):
+        planName = request.POST['planName']
+        planDescription = request.POST['planDescription']
+        Schedule.objects.create(name="planName", description="planDescription")
+        return render(request, 'app-add-schedules.html')  # HttpResponse("Dodano plan!")
 
 
 class DodajPrzepisDoPlanuView(View):
