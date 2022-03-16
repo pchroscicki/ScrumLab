@@ -34,7 +34,12 @@ class PrzepisyView(View):
 
 class PlanyView(View):
     def get(self, request):
-        return render(request, 'app-schedules.html')
+        schedule_list = Schedule.objects.all().order_by('name')
+        paginator = Paginator(schedule_list, 50)
+        page = request.GET.get('page')
+        schedules = paginator.get_page(page)
+        ctx = {'schedules': schedules, 'schedule_list': schedule_list}
+        return render(request, 'app-schedules.html', ctx)
 
 class PulpitView(View):
     def get(self, request):
