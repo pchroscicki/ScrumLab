@@ -2,7 +2,7 @@ import random
 from datetime import datetime
 from django.core.paginator import Paginator
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from jedzonko.models import Schedule, Recipe
 
@@ -61,7 +61,7 @@ class DodajPrzepisView(View):
             return render(request, 'app-add-recipe.html', {'text': text})
         Recipe.objects.create(name=recipe, ingredients=ingredients, description=description, preparation_time=time,
                               preparation=preparation)
-        return render(request, 'app-recipes.html')
+        return redirect('/recipe/list/')
 
 class ModyfikujPrzepisView(View):
     def get(self, request):
