@@ -80,6 +80,6 @@ class DodajPrzepisDoPlanuView(View):
 
 class DetalePrzepisuView(View):
     def get(self, request):
-        # recipes = list(Recipe.objects.all())
+        recipes = list(Recipe.objects.all())
         return render(request, 'app-recipe-details.html')
 
