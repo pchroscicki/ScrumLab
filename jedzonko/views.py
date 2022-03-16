@@ -88,7 +88,7 @@ class DodajPlanView(View):
 
 class DodajPrzepisDoPlanuView(View):
     def get(self, request):
-        return render(request, 'app-details-schedules.html')
+        return render(request, 'app-schedules-meal-recipe.html')
 
 
 class DetalePrzepisuView(View):
