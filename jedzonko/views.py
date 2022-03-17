@@ -95,9 +95,11 @@ class DodajPrzepisDoPlanuView(View):
         return render(request, 'app-schedules-meal-recipe.html')
 
 class DetalePrzepisuView(View):
-    def get(self, request):
-        recipes = list(Recipe.objects.all())
-        return render(request, 'app-recipe-details.html')
+    def get(self, request, id):
+        #recipes = list(Recipe.objects.all()) ### Czy to komuś jest tutaj potrzebne? (PCh)
+        recipe = Recipe.objects.get(pk=id)
+        ctx = {'recipe': recipe}
+        return render(request, 'app-recipe-details.html', ctx)
 
 class DetalePlanuView(View):
     def get(self, request, id):
