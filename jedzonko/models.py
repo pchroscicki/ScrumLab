@@ -58,7 +58,7 @@ class RecipePlan(models.Model):
     day_name = models.ForeignKey(DayName, on_delete=models.CASCADE)
     
 
-   # class Page(models.Model):
+#    class Page(models.Model):
 #     title = models.CharField(max_length=64)
 #     description = models.TextField()
 #     slug = models.SlugField(null=False, unique=True)
