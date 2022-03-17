@@ -19,8 +19,7 @@
                                     Nazwa planu
                                 </span>
                 <div class="col-sm-10">
-                    <p class="schedules-text">Plan jarski na bezmięsny
-                        tydzień</p>
+                    <p class="schedules-text">{{ schedule.name }} na tydzień</p>
                 </div>
             </div>
             <div class="form-group row">
@@ -29,13 +28,7 @@
                                 </span>
                 <div class="col-sm-10">
                     <p class="schedules-text">
-                        Pojęcie kuchnia wegetariańska określa pożywienie, które
-                        ani nie zawiera mięsa, ani nie zostało przygotowane na
-                        bazie pochodzącej z mięsa (np. na rosole drobiowym).
-                        Laktoowowegetarianie (najczęściej spotykany typ
-                        wegetarian w zachodnim świecie) spożywają nabiał,
-                        laktowegetarianie wykluczają jaja, ale nie inne produkty
-                        nabiałowe.
+                        {{ schedule.description }}
                     </p>
                 </div>
             </div>
@@ -63,7 +56,7 @@
                 </td>
             </tr>
             <tr class="d-flex">
-                <td class="col-2">śniadanie</td>
+                <td class="col-2">obiad</td>
                 <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
                 <td class="col-1 center">
                     <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
@@ -74,7 +67,7 @@
                 </td>
             </tr>
             <tr class="d-flex">
-                <td class="col-2">śniadanie</td>
+                <td class="col-2">kolacja</td>
                 <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
                 <td class="col-1 center">
                     <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
