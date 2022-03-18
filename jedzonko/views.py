@@ -1,5 +1,6 @@
 import random
 from datetime import datetime
+
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -116,9 +117,13 @@ class DetalePrzepisuView(View):
         recipe = Recipe.objects.get(pk=id)
         ctx = {'recipe': recipe}
         return render(request, 'app-recipe-details.html', ctx)
+
     def post(self, request, id):
         recipe = Recipe.objects.get(pk=id)
-        recipe.votes -= 1
+        if 'Like' in request.POST:
+            recipe.votes += 1
+        elif 'Hate' in request.POST:
+            recipe.votes -= 1
         recipe.save()
         ctx = {'recipe': recipe}
         return render(request, 'app-recipe-details.html', ctx)
