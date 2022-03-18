@@ -8,10 +8,10 @@
             <div class="col"><h3 class="color-header text-uppercase">Szczegóły
                 przepisu</h3></div>
             <div class="col d-flex justify-content-end mb-2">
-                <a href="app-details-schedules.html"
+                <a href="/plan/add/recipe/"
                        class="btn btn-info rounded-0 text-light m-1">Dodaj przepis do planu</a>
                 <a href="/plan/add/"
-                    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
+    class="btn btn-color rounded-0 pt-0 pb-0 pr-4 pl-4">Powrót</a>
             </div>
         </div>
 
@@ -70,4 +70,11 @@
 
     </div>
 </div>
+    <form method="POST">
+    {% csrf_token %}
+        <input type="hidden" value="{{ recipe.id }}">
+        <input type="submit" name="Like" value="Polub przepis">
+        <input type="submit" name="Hate" value="Nie lubię przepisu">
+
+    </form>
 {% endblock content %}

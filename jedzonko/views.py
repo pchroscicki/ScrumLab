@@ -1,5 +1,6 @@
 import random
 from datetime import datetime
+
 from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -114,18 +115,27 @@ class DodajPrzepisDoPlanuView(View):
 class DetalePrzepisuView(View):
     def get(self, request, id):
         recipe = Recipe.objects.get(pk=id)
-        return render(request, 'app-recipe-details.html', context={'recipe': recipe})
-      
-        #recipes = list(Recipe.objects.all()) ### Czy to komuś jest tutaj potrzebne? (PCh)
-        recipe = Recipe.objects.get(pk=id)
         ctx = {'recipe': recipe}
         return render(request, 'app-recipe-details.html', ctx)
 
+    def post(self, request, id):
+        recipe = Recipe.objects.get(pk=id)
+        if 'Like' in request.POST:
+            recipe.votes += 1
+        elif 'Hate' in request.POST:
+            recipe.votes -= 1
+        recipe.save()
+        ctx = {'recipe': recipe}
+        return render(request, 'app-recipe-details.html', ctx)
 
 class DetalePlanuView(View):
     def get(self, request, id):
-        schedule = Schedule.objects.get(pk=id)
-        return render(request, 'app-details-schedules.html', context={'schedule': schedule})
+        plan = Schedule.objects.get(pk=id)
+        ctx = {'plan': plan}
+        return render(request, 'app-details-schedules.html', ctx)
+        # recipeplan = list(RecipePlan.objects.all())
+        # recipes = Schedule.recipes.all()
+        # ctx = {'recipeplan': recipeplan}
 
 class ModyfikujPrzepisView(View):
     def get(self, request, id):
@@ -140,6 +150,10 @@ class ModyfikujPrzepisView(View):
         new_preparation_time = request.POST['time']
         new_preparation = request.POST['preparation']
         new_ingredients = request.POST['ingredients']
+        if not new_recipe or new_description or new_preparation_time or new_ingredients:
+            text = 'Uzupełnij wszystkie pola'
+            return render(request, 'app-modify-recipe.html', {'text': text})
         Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
         modified_recipe = Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
         return redirect(f'/recipe/modify/{modified_recipe.id}')
+
