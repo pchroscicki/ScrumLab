@@ -100,10 +100,18 @@ class DetalePrzepisuView(View):
         recipe = Recipe.objects.get(pk=id)
         ctx = {'recipe': recipe}
         return render(request, 'app-recipe-details.html', ctx)
+    def post(self, request, id):
+        recipe = Recipe.objects.get(pk=id)
+        recipe.votes -= 1
+        recipe.save()
+        ctx = {'recipe': recipe}
+        return render(request, 'app-recipe-details.html', ctx)
+
+
 
 class DetalePlanuView(View):
     def get(self, request, id):
-        schedule = Schedule.objects.get(pk=id)
-        recipes = schedule.recipes.all()
-        ctx = {'recipes': recipes, 'schedule': schedule}
+        recipeplan = list(RecipePlan.objects.all())
+        # recipes = schedule.recipes.all()
+        ctx = {'recipeplan': recipeplan}
         return render(request, 'app-details-schedules.html', context=ctx)
