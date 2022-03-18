@@ -6,6 +6,8 @@ from django.db import models
 # Create your models here.
 
 class Recipe(models.Model):
+    def __str__(self):
+        return self.name
     name = models.CharField(max_length=64)
     ingredients = models.TextField(null=True)
     description = models.TextField(null=True)
@@ -17,6 +19,8 @@ class Recipe(models.Model):
 
 
 class Schedule(models.Model):
+    def __str__(self):
+        return self.name
     name = models.CharField(max_length=64)
     description = models.TextField(null=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -57,7 +61,7 @@ class RecipePlan(models.Model):
     day_name = models.ForeignKey(DayName, on_delete=models.CASCADE)
     
 
-   # class Page(models.Model):
+#    class Page(models.Model):
 #     title = models.CharField(max_length=64)
 #     description = models.TextField()
 #     slug = models.SlugField(null=False, unique=True)

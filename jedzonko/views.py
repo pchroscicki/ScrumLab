@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from jedzonko.models import Schedule, Recipe, DayName, RecipePlan
 from django.http import Http404
+from jedzonko.models import Schedule, Recipe, RecipePlan
 
 
 class IndexView(View):
@@ -114,6 +115,12 @@ class DetalePrzepisuView(View):
     def get(self, request, id):
         recipe = Recipe.objects.get(pk=id)
         return render(request, 'app-recipe-details.html', context={'recipe': recipe})
+      
+        #recipes = list(Recipe.objects.all()) ### Czy to komuś jest tutaj potrzebne? (PCh)
+        recipe = Recipe.objects.get(pk=id)
+        ctx = {'recipe': recipe}
+        return render(request, 'app-recipe-details.html', ctx)
+
 
 class DetalePlanuView(View):
     def get(self, request, id):
