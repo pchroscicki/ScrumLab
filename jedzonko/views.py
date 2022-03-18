@@ -125,12 +125,13 @@ class DetalePrzepisuView(View):
 
 class DetalePlanuView(View):
     def get(self, request, id):
-        recipeplan = list(RecipePlan.objects.all())
-        recipes = schedule.recipes.all()
-        ctx = {'recipeplan': recipeplan}
-        return render(request, 'app-details-schedules.html', context=ctx)
+        plan = Schedule.objects.get(pk=id)
+        ctx = {'plan': plan}
+        return render(request, 'app-details-schedules.html', ctx)
+            # recipeplan = list(RecipePlan.objects.all())
+            # recipes = Schedule.recipes.all()
+            # ctx = {'recipeplan': recipeplan}
 
-     
 class ModyfikujPrzepisView(View):
     def get(self, request, id):
         try:
