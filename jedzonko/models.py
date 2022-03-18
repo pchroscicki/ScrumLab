@@ -38,6 +38,8 @@ CHOICES = (
 )
 
 class DayName(models.Model):
+    def __str__(self):
+        return self.name
     name = models.CharField(max_length=3, choices=CHOICES)
     order = models.SmallIntegerField(unique=True)
 
@@ -54,6 +56,8 @@ MEALS = (
 
 
 class RecipePlan(models.Model):
+    def __str__(self):
+        return self.meal_name
     meal_name = models.CharField(max_length=60, choices=MEALS)  # (śniadanie, obiad itp)
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
     schedule = models.ForeignKey(Schedule, on_delete=models.CASCADE)

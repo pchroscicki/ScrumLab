@@ -39,92 +39,35 @@
             </div>
         </div>
 
-        <table class="table">
+        <table class="table" >
             <thead>
             <tr class="d-flex">
-                <th class="col-2"> Poniedziałek </th>
+                {% regroup recipeplan by day_name as day_name_list %}
+                        {% for day_name in day_name_list %}
+                <th class="col-2"> {{ day_name.grouper }} </th>
                 <th class="col-7"></th>
                 <th class="col-1"></th>
                 <th class="col-2"></th>
             </tr>
             </thead>
+                              {% for recipe in day_name.list %}
             <tbody class="text-color-lighter">
             <tr class="d-flex">
 
-                {% regroup recipes by day_name as day_name_list %}
+                <td class="col-2">{{ recipe.meal_name }} </td>
+                <td class="col-7"> {{ recipe.recipe }}</td>
 
-                        <ul>
-                        {% for day_name in day_name_list %}
-                            <li>{{ day_name.grouper }}
-                            <ul>
-                                {% for recipe in day_name.list %}
-                                  <li>{{ recipe.name }}</li>
-                                {% endfor %}
-                            </ul>
-                            </li>
-                        {% endfor %}
-                        </ul>
-
-
-
-
-
-
-                <td class="col-2">śniadanie</td>
-                <td class="col-7">{{ recipe.name }}</td>
                 <td class="col-1 center">
-                    <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                </td>
+                    <p><a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
+                </td><td></td><td></td>
                 <td class="col-2 center">
-                    <a href="app-details-schedules.html"
+                    <a href="/recipe/{{ recipe.recipe.id }}/"
                        class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
                 </td>
             </tr>
-            <tr class="d-flex">
-                <td class="col-2">drugie śniadanie</td>
-                <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                <td class="col-1 center">
-                    <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                </td>
-                <td class="col-2 center">
-                    <a href="app-details-schedules.html"
-                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                </td>
-            </tr>
-            <tr class="d-flex">
-                <td class="col-2">obiad</td>
-                <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                <td class="col-1 center">
-                    <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                </td>
-                <td class="col-2 center">
-                    <a href="app-details-schedules.html"
-                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                </td>
-            </tr>
-            <tr class="d-flex">
-                <td class="col-2">kolacja</td>
-                <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                <td class="col-1 center">
-                    <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                </td>
-                <td class="col-2 center">
-                    <a href="app-details-schedules.html"
-                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                </td>
-            </tr>
-            <tr class="d-flex">
-                <td class="col-2">podwieczorek</td>
-                <td class="col-7">płatki owsiane z jagodami i komosą ryżową</td>
-                <td class="col-1 center">
-                    <a href="#" class="btn btn-danger rounded-0 text-light m-1">Usuń</a>
-                </td>
-                <td class="col-2 center">
-                    <a href="app-details-schedules.html"
-                       class="btn btn-info rounded-0 text-light m-1">Szczegóły</a>
-                </td>
-            </tr>
+                {% endfor %}
             </tbody>
+          {% endfor %}
         </table>
 
     </div>
