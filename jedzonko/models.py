@@ -33,7 +33,6 @@ CHOICES = (
     ('Sun', 'Niedziela')
 )
 
-
 class DayName(models.Model):
     name = models.CharField(max_length=3, choices=CHOICES)
     order = models.SmallIntegerField(unique=True)
