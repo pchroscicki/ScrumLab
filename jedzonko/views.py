@@ -4,7 +4,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-from jedzonko.models import Schedule, Recipe
+from jedzonko.models import Schedule, Recipe, RecipePlan
 
 
 class IndexView(View):
@@ -104,4 +104,6 @@ class DetalePrzepisuView(View):
 class DetalePlanuView(View):
     def get(self, request, id):
         schedule = Schedule.objects.get(pk=id)
-        return render(request, 'app-details-schedules.html', context={'schedule': schedule})
+        recipes = schedule.recipes.all()
+        ctx = {'recipes': recipes, 'schedule': schedule}
+        return render(request, 'app-details-schedules.html', context=ctx)
