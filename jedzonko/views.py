@@ -17,7 +17,10 @@ class IndexView(View):
         recipes = recipe[0:3]
         ctx = {"actual_date": datetime.now(), 'recipes': recipes}
         return render(request, "index.html", ctx)   # zmiana z test.html
-
+    def post(self, request):
+        search = request.POST['search']
+        search_recipe = Recipe.objects.get(name=search)
+        return redirect(f'/recipe/{search_recipe.id}')
 
 
 class PrzepisyView(View):
