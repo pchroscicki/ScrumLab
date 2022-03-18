@@ -73,7 +73,8 @@
     <form method="POST">
     {% csrf_token %}
         <input type="hidden" value="{{ recipe.id }}">
-        <input type="submit" value="Nie lubię przepisu">
+        <input type="submit" name="Like" value="Polub przepis">
+        <input type="submit" name="Hate" value="Nie lubię przepisu">
 
     </form>
 {% endblock content %}
