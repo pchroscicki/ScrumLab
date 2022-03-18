@@ -4,6 +4,8 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
+from jedzonko.models import Schedule, Recipe, DayName, RecipePlan
+from django.http import Http404
 from jedzonko.models import Schedule, Recipe, RecipePlan
 
 
@@ -67,10 +69,6 @@ class DodajPrzepisView(View):
                               preparation=preparation)
         return redirect('/recipe/list/')
 
-class ModyfikujPrzepisView(View):
-    def get(self, request):
-        return render(request, 'app-edit-recipe.html')
-
 
 class ModyfikujPlanView(View):
     def get(self, request):
@@ -92,10 +90,31 @@ class DodajPlanView(View):
 
 class DodajPrzepisDoPlanuView(View):
     def get(self, request):
-        return render(request, 'app-schedules-meal-recipe.html')
+        plans = list(Schedule.objects.all())
+        recipes = list(Recipe.objects.all())
+        return render(request, 'app-schedules-meal-recipe.html', {'plans': plans, 'recipes': recipes})
+    def post(self, request):
+        food = request.POST['foodname']
+        number = request.POST['number']
+        id_plan = request.POST['plan']
+        id_recipe = request.POST['recipe']
+        id_day = request.POST['day']
+        if not food and number and id_plan and id_recipe and id_day:
+            text = 'Wypełnij wszystkie pola'
+            return render(request, 'app-schedules-meal-recipe.html', {'text': text})
+
+        # musimy przekierować użytkownika na stronę `/plan/<id>/` gdzie <id> to id wybranego planu - a nie nowego RecipePlan
+        # wyciągamy id z powyższych danych żeby dodać je RecipePlan - tabele powiązane przez ID
+        recipe = Recipe.objects.get(id=id_recipe)
+        schedule = Schedule.objects.get(id=id_plan)
+        day = DayName.objects.get(name=id_day)
+        RecipePlan.objects.create(meal_name=food, recipe=recipe, schedule=schedule, order=number, day_name=day)
+        return redirect(f'/plan/{schedule.id}')
 
 class DetalePrzepisuView(View):
     def get(self, request, id):
+        recipe = Recipe.objects.get(pk=id)
+        return render(request, 'app-recipe-details.html', context={'recipe': recipe}
         #recipes = list(Recipe.objects.all()) ### Czy to komuś jest tutaj potrzebne? (PCh)
         recipe = Recipe.objects.get(pk=id)
         ctx = {'recipe': recipe}
@@ -107,11 +126,28 @@ class DetalePrzepisuView(View):
         ctx = {'recipe': recipe}
         return render(request, 'app-recipe-details.html', ctx)
 
-
-
 class DetalePlanuView(View):
     def get(self, request, id):
         recipeplan = list(RecipePlan.objects.all())
-        # recipes = schedule.recipes.all()
+        recipes = schedule.recipes.all()
         ctx = {'recipeplan': recipeplan}
         return render(request, 'app-details-schedules.html', context=ctx)
+
+     
+class ModyfikujPrzepisView(View):
+    def get(self, request, id):
+        try:
+            recipe = Recipe.objects.get(pk=id)
+        except Recipe.DoesNotExist:
+            raise Http404("Question does not exist")
+        return render(request, 'app-modify-recipe.html', {'recipe': recipe})
+    def post(self, request, id):
+        new_recipe = request.POST['recipe']
+        new_description = request.POST['description']
+        new_preparation_time = request.POST['time']
+        new_preparation = request.POST['preparation']
+        new_ingredients = request.POST['ingredients']
+        Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
+        modified_recipe = Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
+        return redirect(f'/recipe/modify/{modified_recipe.id}')
+
