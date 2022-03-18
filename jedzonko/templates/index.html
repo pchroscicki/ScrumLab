@@ -15,7 +15,9 @@
 </head>
 
 <body>
-    <header class="page-header">
+    <form action="" method="POST">
+    {% csrf_token %}
+        <header class="page-header">
         <nav class="navbar navbar-expand-lg justify-content-around">
             <a href="/" class="navbar-brand main-logo">
                 Zaplanuj <span>Jedzonko</span>
@@ -117,15 +119,15 @@
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <h1>Lorem ipsum dolor sie amet</h1>
+                    <h1>Wyszukaj ulubiony przepis</h1>
                 </div>
                 <div class="col-5">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control border-0 rounded-0" placeholder=""
-                            aria-label="Recipient's username" aria-describedby="basic-addon2">
+                            aria-label="Recipient's username" aria-describedby="basic-addon2" name="search">
                         <div class="input-group-append">
                             <button class="input-group-text btn-color border-0 rounded-0" type="submit" id="basic-addon2">
-                                <a href="index.html">Lorem</a>
+                                <a href=/recipe/{{ search_recipe.id }}>Szukaj</a>
                             </button>
                         </div>
                     </div>
@@ -210,5 +212,6 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
+    </form>
 </body>
 </html>
