@@ -1,9 +1,10 @@
 from django.contrib import admin
-from jedzonko.models import Recipe
-
+from jedzonko.models import Recipe, Schedule, RecipePlan
 
 # Register your models here.
 admin.site.register(Recipe)
+admin.site.register(Schedule)
+admin.site.register(RecipePlan)
 # Register your models here.
 
 
