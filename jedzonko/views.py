@@ -134,7 +134,7 @@ class DetalePrzepisuView(View):
 class DetalePlanuView(View):
     def get(self, request, id):
         plan = Schedule.objects.get(pk=id)
-        recipeplan = RecipePlan.objects.all()
+        recipeplan = plan.recipeplan_set.all()
         ctx = {'plan': plan, 'recipeplan': recipeplan}
         return render(request, 'app-details-schedules.html', ctx)
 
