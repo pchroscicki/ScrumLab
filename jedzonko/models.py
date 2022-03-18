@@ -1,6 +1,6 @@
 from django.db import models
-# from django.template.defaultfilters import slugify
-# from django.urls import reverse
+from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 
 # Create your models here.
@@ -61,21 +61,21 @@ class RecipePlan(models.Model):
     day_name = models.ForeignKey(DayName, on_delete=models.CASCADE)
     
 
-#    class Page(models.Model):
-#     title = models.CharField(max_length=64)
-#     description = models.TextField()
-#     slug = models.SlugField(null=False, unique=True)
-#
-#     def __str__(self):
-#         return self.title
-#
-#     def get_absolute_url(self):
-#         return reverse('page_detail', kwargs={'slug': self.slug})
-#
-#     def save(self, *args, **kwargs):
-#         if not self.slug:
-#             self.slug = slugify(self.title)
-#         return super().save(*args, **kwargs)
+class Page(models.Model):
+    title = models.CharField(max_length=64)
+    description = models.TextField()
+    slug = models.SlugField(null=False, unique=True)
+
+    def __str__(self):
+        return self.title
+
+    def get_absolute_url(self):
+        return reverse('page_detail', kwargs={'slug': self.slug})
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        return super().save(*args, **kwargs)
 
     #link do dokumentacji https://learndjango.com/tutorials/django-slug-tutorial#slugs
     # takze wykomentowane importy !!! ORAZ admin.py
