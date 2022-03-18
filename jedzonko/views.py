@@ -114,19 +114,26 @@ class DodajPrzepisDoPlanuView(View):
 class DetalePrzepisuView(View):
     def get(self, request, id):
         recipe = Recipe.objects.get(pk=id)
-        return render(request, 'app-recipe-details.html', context={'recipe': recipe})
-      
+        return render(request, 'app-recipe-details.html', context={'recipe': recipe}
         #recipes = list(Recipe.objects.all()) ### Czy to komuś jest tutaj potrzebne? (PCh)
         recipe = Recipe.objects.get(pk=id)
         ctx = {'recipe': recipe}
         return render(request, 'app-recipe-details.html', ctx)
-
+    def post(self, request, id):
+        recipe = Recipe.objects.get(pk=id)
+        recipe.votes -= 1
+        recipe.save()
+        ctx = {'recipe': recipe}
+        return render(request, 'app-recipe-details.html', ctx)
 
 class DetalePlanuView(View):
     def get(self, request, id):
-        schedule = Schedule.objects.get(pk=id)
-        return render(request, 'app-details-schedules.html', context={'schedule': schedule})
+        recipeplan = list(RecipePlan.objects.all())
+        recipes = schedule.recipes.all()
+        ctx = {'recipeplan': recipeplan}
+        return render(request, 'app-details-schedules.html', context=ctx)
 
+     
 class ModyfikujPrzepisView(View):
     def get(self, request, id):
         try:
@@ -143,3 +150,4 @@ class ModyfikujPrzepisView(View):
         Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
         modified_recipe = Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
         return redirect(f'/recipe/modify/{modified_recipe.id}')
+
