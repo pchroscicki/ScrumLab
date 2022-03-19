@@ -68,7 +68,7 @@ class RecipePlan(models.Model):
 class Page(models.Model):
     title = models.CharField(max_length=64)
     description = models.TextField()
-    slug = models.SlugField(null=False, unique=True)
+    slug = models.SlugField(max_length=64, null=False, unique=True)
 
     def __str__(self):
         return self.title
@@ -78,7 +78,7 @@ class Page(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = slugify(self.title)
+            self.slug = slugify(self.title, allow_unicode=True)
         return super().save(*args, **kwargs)
 
     #link do dokumentacji https://learndjango.com/tutorials/django-slug-tutorial#slugs

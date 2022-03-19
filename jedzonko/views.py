@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from jedzonko.models import Schedule, Recipe, DayName, RecipePlan
 from django.http import Http404
-from jedzonko.models import Schedule, Recipe, RecipePlan
+from jedzonko.models import Schedule, Recipe, RecipePlan, Page
 
 
 class IndexView(View):
@@ -159,3 +159,19 @@ class ModyfikujPrzepisView(View):
         modified_recipe = Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
         return redirect(f'/recipe/modify/{modified_recipe.id}')
 
+class ContactView(View):
+    def get(self, request):
+        return render(request, 'contact.html')
+
+
+class AboutView(View):
+    def get(self, request):
+        return render(request, 'about.html')
+
+# class AboutView(View):
+#     def get(self, request, slug):
+#         try:
+#             slug = Page.objects.get(slug)
+#         except Page.DoesNotExist:
+#             raise Http404("Page does not exist")
+#         return render(request, 'about.html', {'slug': slug})
