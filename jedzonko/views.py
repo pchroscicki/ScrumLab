@@ -50,7 +50,8 @@ class PulpitView(View):
         recipes_number = Recipe.objects.count()
         schedule_list = list(Schedule.objects.all().order_by('-created'))
         last_schedule = schedule_list[0]
-        ctx = {'schedules_number': schedules_number, 'recipes_number': recipes_number, 'last_schedule': last_schedule}
+        recipeplan = last_schedule.recipeplan_set.all()
+        ctx = {'schedules_number': schedules_number, 'recipes_number': recipes_number, 'last_schedule': last_schedule, 'recipeplan': recipeplan}
         return render(request, 'dashboard.html', ctx)
 
 
