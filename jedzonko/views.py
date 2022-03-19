@@ -5,9 +5,9 @@ from django.core.paginator import Paginator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.views import View
-from jedzonko.models import Schedule, Recipe, DayName, RecipePlan
+from jedzonko.models import Schedule, Recipe, DayName, RecipePlan, Page
 from django.http import Http404
-from jedzonko.models import Schedule, Recipe, RecipePlan, Page
+
 
 
 class IndexView(View):
@@ -16,7 +16,8 @@ class IndexView(View):
         random.shuffle(recipe)
         recipes = recipe[0:3]
         ctx = {"actual_date": datetime.now(), 'recipes': recipes}
-        return render(request, "index.html", ctx)   # zmiana z test.html
+        return render(request, "index.html", ctx)  # zmiana z test.html
+
     def post(self, request):
         search = request.POST['search']
         search_recipe = Recipe.objects.get(name=search)
@@ -42,6 +43,7 @@ class PlanyView(View):
         ctx = {'schedules': schedules, 'schedule_list': schedule_list}
         return render(request, 'app-schedules.html', ctx)
 
+
 class PulpitView(View):
     def get(self, request):
         schedules_number = Schedule.objects.count()
@@ -60,6 +62,7 @@ class ZaplanujJedzonkoView(View):
 class DodajPrzepisView(View):
     def get(self, request):
         return render(request, 'app-add-recipe.html')
+
     def post(self, request):
         recipe = request.POST['recipe']
         description = request.POST['description']
@@ -82,6 +85,7 @@ class ModyfikujPlanView(View):
 class DodajPlanView(View):
     def get(self, request):
         return render(request, 'app-add-schedules.html')
+
     def post(self, request):
         planname = request.POST['planName']
         plandescription = request.POST['planDescription']
@@ -97,6 +101,7 @@ class DodajPrzepisDoPlanuView(View):
         plans = list(Schedule.objects.all())
         recipes = list(Recipe.objects.all())
         return render(request, 'app-schedules-meal-recipe.html', {'plans': plans, 'recipes': recipes})
+
     def post(self, request):
         food = request.POST['foodname']
         number = request.POST['number']
@@ -115,6 +120,7 @@ class DodajPrzepisDoPlanuView(View):
         RecipePlan.objects.create(meal_name=food, recipe=recipe, schedule=schedule, order=number, day_name=day)
         return redirect(f'/plan/{schedule.id}')
 
+
 class DetalePrzepisuView(View):
     def get(self, request, id):
         recipe = Recipe.objects.get(pk=id)
@@ -131,10 +137,11 @@ class DetalePrzepisuView(View):
         ctx = {'recipe': recipe}
         return render(request, 'app-recipe-details.html', ctx)
 
+
 class DetalePlanuView(View):
     def get(self, request, id):
         plan = Schedule.objects.get(pk=id)
-        recipeplan = RecipePlan.objects.all()
+        recipeplan = plan.recipeplan_set.all()
         ctx = {'plan': plan, 'recipeplan': recipeplan}
         return render(request, 'app-details-schedules.html', ctx)
 
@@ -146,6 +153,7 @@ class ModyfikujPrzepisView(View):
         except Recipe.DoesNotExist:
             raise Http404("Question does not exist")
         return render(request, 'app-modify-recipe.html', {'recipe': recipe})
+
     def post(self, request, id):
         new_recipe = request.POST['recipe']
         new_description = request.POST['description']
@@ -155,9 +163,24 @@ class ModyfikujPrzepisView(View):
         if not new_recipe or new_description or new_preparation_time or new_ingredients:
             text = 'Uzupełnij wszystkie pola'
             return render(request, 'app-modify-recipe.html', {'text': text})
-        Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
-        modified_recipe = Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description, preparation_time=new_preparation_time, preparation=new_preparation)
+        Recipe.objects.create(name=new_recipe, ingredients=new_ingredients, description=new_description,
+                              preparation_time=new_preparation_time, preparation=new_preparation)
+        modified_recipe = Recipe.objects.create(name=new_recipe, ingredients=new_ingredients,
+                                                description=new_description, preparation_time=new_preparation_time,
+                                                preparation=new_preparation)
         return redirect(f'/recipe/modify/{modified_recipe.id}')
+
+
+class Buttons(View):
+    def get(self, request, id1):
+        recipe_plan_id = int(id1)
+        recipe_plan = RecipePlan.objects.get(pk=recipe_plan_id)
+        plan_id = recipe_plan.schedule_id
+        recipe_plan.delete()
+        return redirect(f'/plan/{plan_id}')
+
+
+
 
 class ContactView(View):
     def get(self, request):
@@ -169,7 +192,7 @@ class AboutView(View):
         return render(request, 'about.html')
 
 # class AboutView(View):
-#     def get(self, request, slug):
+#     def get(self, request):
 #         try:
 #             slug = Page.objects.get(slug)
 #         except Page.DoesNotExist:
