@@ -77,9 +77,24 @@ class DodajPrzepisView(View):
         return redirect('/recipe/list/')
 
 
-class ModyfikujPlanView(View):
-    def get(self, request):
-        return render(request, 'app-edit-schedules.html')
+class ModyfikujPlan(View):
+    def get(self, request, id):
+        plan = Schedule.objects.get(pk=id)
+        ctx = {'plan': plan}
+        return render(request, 'app-edit-schedules.html', ctx)
+
+    def post(self, request, id):
+        plan = Schedule.objects.get(pk=id)
+        new_name = request.POST['planName']
+        new_description = request.POST['planDescription']
+        if not new_name:
+            text = 'Musisz podać nazwę planu'
+            ctx = {'plan': plan, 'text': text}
+            return render(request, 'app-edit-schedules.html', ctx)
+        plan.name = new_name
+        plan.description = new_description
+        plan.save()
+        return redirect('/plan/list/')
 
 
 class DodajPlanView(View):

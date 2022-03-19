@@ -1,44 +1,42 @@
 {% extends "__base__.html" %}
 {% block title %}{% endblock title %}
 {% block content %}
+
+<form method="POST">
+{% csrf_token %}
 <div class="dashboard-content border-dashed p-3 m-4 view-height">
 
     <div class="row border-bottom border-3 p-1 m-1">
         <div class="col noPadding">
-            <h3 class="color-header text-uppercase">NOWY PLAN</h3>
+            <h3 class="color-header text-uppercase">EDYCJA PLANU</h3>
         </div>
         <div class="col d-flex justify-content-end mb-2 noPadding">
-            <a href="#" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4">Zapisz</a>
+            <input type="submit" class="btn btn-success rounded-0 pt-0 pb-0 pr-4 pl-4" value="Zapisz">
         </div>
     </div>
 
     <div class="schedules-content">
-        <form>
             <div class="form-group row">
                 <label for="planName"
                        class="col-sm-2 label-size col-form-label">
                     Nazwa planu
                 </label>
+
                 <div class="col-sm-10">
-                    <input class="form-control"
-                           value="Plan jarski na bezmięsny tydzień"
-                           id="planName" placeholder="Nazwa planu">
+                    <input type="text" name="planName" value="{{ plan.name }}" class="form-control">
                 </div>
             </div>
+        {{ text }}
             <div class="form-group row">
                 <label for="planDescription"
                        class="col-sm-2 label-size col-form-label">
                     Opis planu
                 </label>
                 <div class="col-sm-10">
-                                    <textarea class="form-control" rows="5"
-                                              id="planDescription"
-                                              placeholder="Opis plany">
-Pojęcie kuchnia wegetariańska określa pożywienie, które ani nie zawiera mięsa, ani nie zostało przygotowane na bazie pochodzącej z mięsa (np. na rosole drobiowym). Laktoowowegetarianie (najczęściej spotykany typ wegetarian w zachodnim świecie) spożywają nabiał, laktowegetarianie wykluczają jaja, ale nie inne produkty nabiałowe.
-                                    </textarea>
+                    <input type="text" name="planDescription" value="{{ plan.description }}" class="form-control">
                 </div>
             </div>
-        </form>
+        </div>
     </div>
-</div>
+</form>
 {% endblock content %}
