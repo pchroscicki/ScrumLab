@@ -207,6 +207,13 @@ class AboutView(View):
     def get(self, request):
         return render(request, 'about.html')
 
+class SlugView(View):
+    def get(self, request, slug):
+        page = Page.objects.get(slug=slug)
+        return render(request, 'page.html', {'page': page})
+
+
+
 # class AboutView(View):
 #     def get(self, request):
 #         try:
